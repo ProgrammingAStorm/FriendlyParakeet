@@ -1,3 +1,5 @@
+
+
 function lengthPrompt() {
   var length = window.prompt("Please pick a length between 8 and 128.");
 
@@ -40,11 +42,13 @@ function charPrompt() {
 }
 
 function writePassword() {
+  var passwordText = document.querySelector("#password");
+  passwordText.value = "Generating . . ."
+
   var password = generatePassword(
     lengthPrompt(),
     charPrompt()
   );
-  var passwordText = document.querySelector("#password");
 
   passwordText.value = password;
 }
@@ -64,9 +68,31 @@ function generatePassword(length, selections) {
     charTypes.push("spec")
   }
 
-  
+  var genPass = "";
+
+  for(var x = 0; x < length; x++) {
+    switch(charTypes[Math.floor(Math.random() * charTypes.length)]) {
+      case "low":
+        genPass += letters.charAt(Math.floor(Math.random() * letters.length));
+      break;
+      case "up":
+        genPass += letters.charAt(Math.floor(Math.random() * letters.length)).toUpperCase();
+      break;
+      case "num":
+        genPass += nums.charAt(Math.floor(Math.random() * nums.length))
+      break;
+      case "spec":
+        genPass += spec.charAt(Math.floor(Math.random() * spec.length))
+      break;
+    }
+  }
+
+  return genPass;
 }
 
+var letters = "abcdefghijklmnopqrstuvwxyz";
+var nums = "0123456789";
+var spec = "`~!@#$%^&*()-_=+[]{}\\|;:'\",<.>/?";
 
 // Get references to the #generate element
 var generateBtn = document.querySelector("#generate");
